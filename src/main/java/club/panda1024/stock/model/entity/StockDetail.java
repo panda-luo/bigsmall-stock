@@ -13,10 +13,8 @@ public class StockDetail {
     private String price;
     private String zhangdiefu;
     private String city;
-    private String chengjiaoe;
+    private String turnover;
     private String huanshoulv;
     private String pe;
-
-
 
 }
