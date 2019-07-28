@@ -1,5 +1,6 @@
 package club.panda1024.stock.service;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -14,6 +15,8 @@ import java.util.Map;
 public class StockEaParamService {
 
     private final static String STOCK_BS_DAILY_URL = "http://77.push2.eastmoney.com/api/qt/clist/get";
+    private final static String STOCK_TRENDS_DAILY_URL = "http://push2.eastmoney.com/api/qt/stock/trends2/get";
+
 
     List<JSONObject> getInfos(List<String> fields) {
         Map<String, Object> params = Maps.newHashMap();
@@ -24,6 +27,27 @@ public class StockEaParamService {
         @SuppressWarnings("unchecked")
         List<JSONObject> objs = (List<JSONObject>) JSONUtil.parseObj(resp).getByPath("$.data.diff");
         return objs;
+    }
+
+    JSONObject getStockDetails(String code) {
+        Map<String, Object> params = Maps.newHashMap();
+        getTrendsBaseParam(params);
+        params.put("secid", (code.startsWith("6") ? "1." : "0.") + code);
+
+        String resp = HttpUtil.get(STOCK_TRENDS_DAILY_URL, params);
+        if(StrUtil.isEmpty(resp)) {
+            return null;
+        }
+        return (JSONObject) JSONUtil.parseObj(resp).getByPath("$.data");
+    }
+
+    private static void getTrendsBaseParam(Map<String, Object> params) {
+        params.put("ndays", 1);
+        params.put("ut", "fa5fd1943c7b386f172d6893dbfba10b");
+        params.put("iscr", 0);
+        params.put("fields1", "f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16,f17,f18,f19,f20");
+        params.put("fields2", "f51,f52,f53,f54,f55,f56,f57,f58");
+        params.put("_", new Date());
     }
 
     private static void getInfoBaseParam(Map<String, Object> params) {

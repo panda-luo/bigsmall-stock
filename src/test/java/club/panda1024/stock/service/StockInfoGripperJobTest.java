@@ -19,4 +19,9 @@ public class StockInfoGripperJobTest {
         stockInfoGripperJob.getStockSimple();
     }
 
+    @Test
+    public void getStockTrendsTest() {
+        stockInfoGripperJob.getStockTrends();
+    }
+
 }
