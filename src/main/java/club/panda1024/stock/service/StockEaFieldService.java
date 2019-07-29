@@ -33,9 +33,9 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
         this.stockEaParamService = stockEaParamService;
     }
 
-    public List listTargetObj(Class clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
+    public <T> List<T> listTargetObj(Class<T> clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
         if (clazz == null) return null;
-        List objResult = Lists.newArrayList();
+        List<T> objResult = Lists.newArrayList();
         List<String> fields = Lists.newArrayList();
 
         Map<String, String> eaMap = this.list(Wrappers.<StockEaField>lambdaQuery()
@@ -49,7 +49,7 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
         List<JSONObject> objs = stockEaParamService.getInfos(fields);
 
         for (JSONObject obj : objs) {
-            Object instance = clazz.getConstructor().newInstance();
+            T instance = clazz.getConstructor().newInstance();
 
             for (String key : eaMap.keySet()) {
                 String name = eaMap.get(key);
@@ -71,7 +71,6 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
                             val = Long.valueOf(val.toString());
                         }
                     }
-
                     field1.setAccessible(true);
                     field1.set(instance, val);
                     field1.setAccessible(false);
@@ -79,7 +78,6 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
             }
             objResult.add(instance);
         }
-
         return objResult;
     }
 

@@ -1,6 +1,7 @@
 package club.panda1024.stock.service;
 
 import club.panda1024.stock.model.entity.Stock;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,5 +40,18 @@ public class StockServiceTest {
             }
 
         }
+    }
+
+
+    @Test
+    public void stockEntityTest() {
+        List<Stock> highStocks = stockService.list(Wrappers.<Stock>lambdaQuery()
+                .isNotNull(Stock::getTurnover)
+                .gt(Stock::getQuoteChangeRate, 10)
+                .orderByAsc(Stock::getTurnover));
+
+        highStocks.forEach(stock -> System.out.println(stock.getCode() + " >> " + stock.mv() + " >> " + stock.cv()));
+
+        Stock stock = JSONUtil.toBean("{a:10}", Stock.class);
     }
 }

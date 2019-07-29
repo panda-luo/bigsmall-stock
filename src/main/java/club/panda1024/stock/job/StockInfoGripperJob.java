@@ -39,7 +39,7 @@ public class StockInfoGripperJob {
 
     @Scheduled(cron = "0 30 9 ? * MON-FRI")
     public void getStockSimple() {
-        List list = Lists.newArrayList();
+        List<StockSimple> list = Lists.newArrayList();
         try {
             list = stockEaFieldService.listTargetObj(StockSimple.class);
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class StockInfoGripperJob {
 
     @Scheduled(cron = "0 30 17 ? * MON-FRI")
     public void getStock() {
-        List list = Lists.newArrayList();
+        List<Stock> list = Lists.newArrayList();
 
         try {
             list = stockEaFieldService.listTargetObj(Stock.class);

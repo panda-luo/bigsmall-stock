@@ -3,9 +3,12 @@ package club.panda1024.stock.model.entity;
 import club.panda1024.stock.model.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -13,6 +16,7 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 @TableName(value = "stock")
+@ToString
 public class Stock extends BaseEntity {
 
     @TableId
@@ -33,9 +37,21 @@ public class Stock extends BaseEntity {
     private Double marketValue;
     private Double circulatedValue;
     private Double pb;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date listedDate;
     private String industry;
     private String region;
     private String tag;
+
+
+    public double mv() {
+        return this.marketValue / 1_000_000_000; // billion
+    }
+
+
+    public double cv() {
+        return this.circulatedValue / 1_000_000_000; // billion
+    }
 
 }
