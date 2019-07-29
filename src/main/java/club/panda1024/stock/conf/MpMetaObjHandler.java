@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
+ * 尚未实现登陆功能, creator/updater暂时写入代码里。
+ *
  * @author Panda
  * @since 2019-07-29T13:11
  */

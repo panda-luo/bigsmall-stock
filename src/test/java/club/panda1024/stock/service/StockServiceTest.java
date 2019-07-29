@@ -1,7 +1,6 @@
 package club.panda1024.stock.service;
 
 import club.panda1024.stock.model.entity.Stock;
-import club.panda1024.stock.model.entity.StockEaField;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -16,7 +16,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration

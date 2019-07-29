@@ -2,6 +2,7 @@ package club.panda1024.stock.model.entity;
 
 import club.panda1024.stock.model.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -11,6 +12,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
+@TableName(value = "stock")
 public class Stock extends BaseEntity {
 
     @TableId
