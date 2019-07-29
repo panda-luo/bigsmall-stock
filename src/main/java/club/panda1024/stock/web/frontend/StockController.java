@@ -1,8 +1,9 @@
 package club.panda1024.stock.web.frontend;
 
+import club.panda1024.stock.model.base.WrapMapper;
+import club.panda1024.stock.model.base.Wrapper;
 import club.panda1024.stock.model.entity.Stock;
 import club.panda1024.stock.service.StockService;
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +28,11 @@ public class StockController {
     }
 
     @GetMapping("{code}")
-    public String getStock(@PathVariable String code) {
+    public Wrapper get(@PathVariable String code) {
         Stock stock = stockService.getById(code);
 
         log.info("Stock: {}", stock);
-        return JSONUtil.toJsonStr(stock);
+        return WrapMapper.ok(stock);
     }
+
 }

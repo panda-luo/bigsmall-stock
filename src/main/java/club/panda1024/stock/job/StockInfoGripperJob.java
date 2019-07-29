@@ -97,6 +97,4 @@ public class StockInfoGripperJob {
             log.error("Error: Save stock trend failed.");
         }
     }
-
-
 }
