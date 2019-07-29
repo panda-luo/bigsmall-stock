@@ -83,7 +83,6 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
                 log.error("Get stock:{} failed.", stock.getCode());
                 continue;
             }
-
             trend.setCode(stock.getCode())
                     .setTrend(data.get("trends").toString())
                     .setDate(new Date((Integer) data.get("time") * 1000L));

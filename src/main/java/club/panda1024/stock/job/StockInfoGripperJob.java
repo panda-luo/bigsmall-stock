@@ -56,7 +56,7 @@ public class StockInfoGripperJob {
         }
     }
 
-    @Scheduled(cron = "0 30 9 ? * MON-FRI")
+    @Scheduled(cron = "0 30 17 ? * MON-FRI")
     public void getStockTrends() {
         List<StockSimple> stockSimples = stockSimpleService.list();
         long s = System.currentTimeMillis();
