@@ -34,13 +34,14 @@ public class StockEaFieldServiceTest {
 
     @Test
     public void listStockSimple() throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
-        List list = stockEaFieldService.listTargetObj(StockSimple.class);
+        List<StockSimple> list = stockEaFieldService.listTargetObj(StockSimple.class);
         list.forEach(System.out::println);
     }
 
     @Test
     public void listStock() throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
-        List list = stockEaFieldService.listTargetObj(Stock.class);
+        List<Stock> list = stockEaFieldService.listTargetObj(Stock.class);
+        list.forEach(System.out::println);
     }
 
     @Test
@@ -53,4 +54,10 @@ public class StockEaFieldServiceTest {
 
         Assert.assertEquals(DateUtil.format(trend.getDate(), "yyyyMMdd") + trend.getCode(), String.valueOf(trend.getId()));
     }
+
+    @Test
+    public void rawTypeTest() {
+
+    }
+
 }

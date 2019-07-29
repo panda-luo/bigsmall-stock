@@ -61,13 +61,13 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
                         val = null;
                     } else {
                         String typeName = field1.getAnnotatedType().getType().getTypeName();
-                        if("java.util.Date".equals(typeName)) {
+                        if(Date.class.getCanonicalName().equals(typeName)) {
                             val = DateUtil.parse(val.toString(), "yyyyMMdd");
                         }
-                        if("java.lang.Double".equals(typeName)) {
+                        if(Double.class.getCanonicalName().equals(typeName)) {
                             val = Double.valueOf(val.toString());
                         }
-                        if("java.lang.Long".equals(typeName)) {
+                        if(Long.class.getCanonicalName().equals(typeName)) {
                             val = Long.valueOf(val.toString());
                         }
                     }
@@ -104,12 +104,6 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
         }
 
         return results;
-    }
-
-    public static void main(String[] args) {
-        String date = DateUtil.formatDate(new Date(1564126786 * 1000L));
-        System.out.println(date);
-
     }
 
 }

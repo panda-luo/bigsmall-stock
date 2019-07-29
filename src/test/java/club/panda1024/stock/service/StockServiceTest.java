@@ -29,8 +29,6 @@ public class StockServiceTest {
     @Test
     public void stockSaveOrUpdateTest() throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
 
-        List<Stock> stocks = stockService.list(
-                Wrappers.<Stock>lambdaQuery().eq(Stock::getCode, "000508"));
         List list = stockEaFieldService.listTargetObj(Stock.class);
 
         for(Object obj : list) {
@@ -38,7 +36,6 @@ public class StockServiceTest {
             if("000508".equals(s.getCode())) {
                 stockService.saveOrUpdate(s);
             }
-
         }
     }
 
@@ -52,6 +49,5 @@ public class StockServiceTest {
 
         highStocks.forEach(stock -> System.out.println(stock.getCode() + " >> " + stock.mv() + " >> " + stock.cv()));
 
-        Stock stock = JSONUtil.toBean("{a:10}", Stock.class);
     }
 }
