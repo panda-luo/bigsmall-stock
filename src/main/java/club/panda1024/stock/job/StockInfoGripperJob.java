@@ -1,8 +1,10 @@
 package club.panda1024.stock.job;
 
+import club.panda1024.stock.model.entity.Stock;
 import club.panda1024.stock.model.entity.StockSimple;
 import club.panda1024.stock.model.entity.StockTrend;
 import club.panda1024.stock.service.StockEaFieldService;
+import club.panda1024.stock.service.StockService;
 import club.panda1024.stock.service.StockSimpleService;
 import club.panda1024.stock.service.StockTrendService;
 import cn.hutool.core.collection.CollectionUtil;
@@ -25,11 +27,14 @@ public class StockInfoGripperJob {
 
     private final StockSimpleService stockSimpleService;
     private final StockTrendService stockTrendService;
+    private final StockService stockService;
 
-    public StockInfoGripperJob(StockEaFieldService stockEaFieldService, StockSimpleService stockSimpleService, StockTrendService stockTrendService) {
+    @Autowired
+    public StockInfoGripperJob(StockEaFieldService stockEaFieldService, StockSimpleService stockSimpleService, StockTrendService stockTrendService, StockService stockService) {
         this.stockEaFieldService = stockEaFieldService;
         this.stockSimpleService = stockSimpleService;
         this.stockTrendService = stockTrendService;
+        this.stockService = stockService;
     }
 
 
@@ -56,6 +61,7 @@ public class StockInfoGripperJob {
         }
     }
 
+
     @Scheduled(cron = "0 30 17 ? * MON-FRI")
     public void getStockTrends() {
         List<StockSimple> stockSimples = stockSimpleService.list();
@@ -72,5 +78,26 @@ public class StockInfoGripperJob {
             log.error("Error: Save stock trend failed.");
         }
     }
+
+
+    @Scheduled(cron = "0 30 17 ? * MON-FRI")
+    public void getStock() {
+        List list = Lists.newArrayList();
+
+        try {
+            list = stockEaFieldService.listTargetObj(Stock.class);
+        } catch (Exception e) {
+            log.error("Error: Get stock simple failed.");
+        }
+
+        boolean flag = stockService.saveOrUpdateBatch(list);
+
+        if(flag) {
+            log.info("Save or update success.");
+        } else {
+            log.error("Error: Save stock trend failed.");
+        }
+    }
+
 
 }

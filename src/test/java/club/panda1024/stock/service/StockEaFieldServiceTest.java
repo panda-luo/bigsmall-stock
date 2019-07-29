@@ -1,5 +1,6 @@
 package club.panda1024.stock.service;
 
+import club.panda1024.stock.model.entity.Stock;
 import club.panda1024.stock.model.entity.StockEaField;
 import club.panda1024.stock.model.entity.StockSimple;
 import club.panda1024.stock.model.entity.StockTrend;
@@ -36,6 +37,11 @@ public class StockEaFieldServiceTest {
     public void listStockSimple() throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
         List list = stockEaFieldService.listTargetObj(StockSimple.class);
         list.forEach(System.out::println);
+    }
+
+    @Test
+    public void listStock() throws InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+        List list = stockEaFieldService.listTargetObj(Stock.class);
     }
 
     @Test

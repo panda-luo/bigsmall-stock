@@ -6,6 +6,7 @@ import club.panda1024.stock.model.entity.StockSimple;
 import club.panda1024.stock.model.entity.StockTrend;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Time;
@@ -56,9 +58,24 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
             for (String key : eaMap.keySet()) {
                 String name = eaMap.get(key);
                 if (fields.contains(name)) {
-                    String val = (String) obj.get(name);
+                    Object val = obj.get(name);
 
                     Field field1 = instance.getClass().getDeclaredField(key);
+                    if(val.equals("-") || StrUtil.isEmpty(val.toString())) {
+                        val = null;
+                    } else {
+                        String typeName = field1.getAnnotatedType().getType().getTypeName();
+                        if("java.util.Date".equals(typeName)) {
+                            val = DateUtil.parse(val.toString(), "yyyyMMdd");
+                        }
+                        if("java.lang.Double".equals(typeName)) {
+                            val = Double.valueOf(val.toString());
+                        }
+                        if("java.lang.Long".equals(typeName)) {
+                            val = Long.valueOf(val.toString());
+                        }
+                    }
+
                     field1.setAccessible(true);
                     field1.set(instance, val);
                     field1.setAccessible(false);
