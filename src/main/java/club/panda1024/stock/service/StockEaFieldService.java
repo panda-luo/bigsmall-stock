@@ -34,7 +34,7 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
     }
 
     public <T> List<T> listTargetObj(Class<T> clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
-        if (clazz == null) return null;
+        if (clazz == null) return Lists.newArrayList();
         List<T> objResult = Lists.newArrayList();
         List<String> fields = Lists.newArrayList();
 
@@ -51,12 +51,11 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
         for (JSONObject obj : objs) {
             T instance = clazz.getConstructor().newInstance();
 
-            for (String key : eaMap.keySet()) {
-                String name = eaMap.get(key);
-                if (fields.contains(name)) {
-                    Object val = obj.get(name);
+            for(Map.Entry<String, String> entry : eaMap.entrySet()){
+                if (fields.contains(entry.getValue())) {
+                    Object val = obj.get(entry.getValue());
 
-                    Field field1 = instance.getClass().getDeclaredField(key);
+                    Field field1 = instance.getClass().getDeclaredField(entry.getKey());
                     if(val.equals("-") || StrUtil.isEmpty(val.toString())) {
                         val = null;
                     } else {

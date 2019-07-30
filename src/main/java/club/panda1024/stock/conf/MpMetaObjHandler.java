@@ -19,7 +19,6 @@ public class MpMetaObjHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("Start insert fill..");
         this.setFieldValByName("createTime", new Date(), metaObject);
         this.setFieldValByName("creator", "Panda", metaObject);
         this.setFieldValByName("updateTime", new Date(), metaObject);
@@ -29,7 +28,6 @@ public class MpMetaObjHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("Start update fill..");
         this.setFieldValByName("updateTime", new Date(), metaObject);
         this.setFieldValByName("updater", "Panda", metaObject);
     }
