@@ -14,8 +14,8 @@ import java.util.Map;
 @Component
 public class StockEaParamService {
 
-    private final static String STOCK_BS_DAILY_URL = "http://77.push2.eastmoney.com/api/qt/clist/get";
-    private final static String STOCK_TRENDS_DAILY_URL = "http://push2.eastmoney.com/api/qt/stock/trends2/get";
+    private static final String STOCK_BS_DAILY_URL = "http://77.push2.eastmoney.com/api/qt/clist/get";
+    private static final String STOCK_TRENDS_DAILY_URL = "http://push2.eastmoney.com/api/qt/stock/trends2/get";
 
 
     List<JSONObject> getInfos(List<String> fields) {

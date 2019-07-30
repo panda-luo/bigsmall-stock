@@ -17,18 +17,20 @@ import java.util.Date;
 @Component
 public class MpMetaObjHandler implements MetaObjectHandler {
 
+    private static final String DEFAULT_ADMIN_USER = "Panda";
+
     @Override
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("createTime", new Date(), metaObject);
-        this.setFieldValByName("creator", "Panda", metaObject);
+        this.setFieldValByName("creator", DEFAULT_ADMIN_USER, metaObject);
         this.setFieldValByName("updateTime", new Date(), metaObject);
-        this.setFieldValByName("updater", "Panda", metaObject);
+        this.setFieldValByName("updater", DEFAULT_ADMIN_USER, metaObject);
     }
 
 
     @Override
     public void updateFill(MetaObject metaObject) {
         this.setFieldValByName("updateTime", new Date(), metaObject);
-        this.setFieldValByName("updater", "Panda", metaObject);
+        this.setFieldValByName("updater", DEFAULT_ADMIN_USER, metaObject);
     }
 }

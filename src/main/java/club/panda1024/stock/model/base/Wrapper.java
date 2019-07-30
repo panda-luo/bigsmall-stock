@@ -9,7 +9,8 @@ import java.io.Serializable;
 /**
  * The class Wrapper.
  *
- * @param <T> the type parameter @author paascloud.net@gmail.com
+ * @param <T> the type parameter
+ * @author panda
  */
 @Data
 public class Wrapper<T> implements Serializable {

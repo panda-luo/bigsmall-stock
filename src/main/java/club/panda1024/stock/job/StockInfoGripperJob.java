@@ -54,7 +54,7 @@ public class StockInfoGripperJob {
         boolean flag = stockSimpleService.saveOrUpdateBatch(list);
 
         if(flag) {
-            log.info("Save or update success.");
+            log.info("Save or update stock simple success.");
         } else {
             log.error("Error: Save stock simple failed.");
         }
@@ -72,7 +72,7 @@ public class StockInfoGripperJob {
         boolean flag = stockTrendService.saveOrUpdateBatch(list);
 
         if(flag) {
-            log.info("Save or update success.");
+            log.info("Save or update stock trend success.");
         } else {
             log.error("Error: Save stock trend failed.");
         }
@@ -92,9 +92,9 @@ public class StockInfoGripperJob {
         boolean flag = stockService.saveOrUpdateBatch(list);
 
         if(flag) {
-            log.info("Save or update success.");
+            log.info("Save or update stock success.");
         } else {
-            log.error("Error: Save stock trend failed.");
+            log.error("Error: Save stock failed.");
         }
     }
 }

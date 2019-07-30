@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 /**
  * The class Wrap mapper.
  *
- * @author paascloud.net@gmail.com
+ * @author panda
  */
 public class WrapMapper {
 
