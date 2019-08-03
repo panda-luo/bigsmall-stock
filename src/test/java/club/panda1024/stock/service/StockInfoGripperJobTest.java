@@ -11,22 +11,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class StockInfoGripperJobTest {
 
-    @Autowired
-    private StockInfoGripperJob stockInfoGripperJob;
+	@Autowired
+	private StockInfoGripperJob stockInfoGripperJob;
 
-    @Test
-    public void stockSimpleJobTest() {
-        stockInfoGripperJob.getStockSimple();
-    }
+	@Test
+	public void stockSimpleJobTest() {
+		stockInfoGripperJob.getStockSimple();
+	}
 
-    @Test
-    public void getStockTrendsTest() {
-        stockInfoGripperJob.getStockTrends();
-    }
+	@Test
+	public void getStockTrendsTest() {
+		stockInfoGripperJob.getStockTrends();
+	}
 
-    @Test
-    public void getStockTest() {
-        stockInfoGripperJob.getStock();
-    }
+	@Test
+	public void getStockTest() {
+		stockInfoGripperJob.getStock();
+	}
 
 }

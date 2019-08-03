@@ -20,19 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("stock")
 public class StockController {
 
-    private final StockService stockService;
+	private final StockService stockService;
 
-    @Autowired
-    public StockController(StockService stockService) {
-        this.stockService = stockService;
-    }
+	@Autowired
+	public StockController(StockService stockService) {
+		this.stockService = stockService;
+	}
 
-    @GetMapping("{code}")
-    public Wrapper get(@PathVariable String code) {
-        Stock stock = stockService.getById(code);
+	@GetMapping("{code}")
+	public Wrapper get(@PathVariable String code) {
+		Stock stock = stockService.getById(code);
 
-        log.info("Stock: {}", stock);
-        return WrapMapper.ok(stock);
-    }
+		log.info("Stock: {}", stock);
+		return WrapMapper.ok(stock);
+	}
 
 }

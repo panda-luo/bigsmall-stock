@@ -26,83 +26,91 @@ import static java.util.stream.Collectors.toMap;
 @Service
 public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEaField> {
 
-    private final StockEaParamService stockEaParamService;
+	private final StockEaParamService stockEaParamService;
 
-    @Autowired
-    public StockEaFieldService(StockEaParamService stockEaParamService) {
-        this.stockEaParamService = stockEaParamService;
-    }
+	@Autowired
+	public StockEaFieldService(StockEaParamService stockEaParamService) {
+		this.stockEaParamService = stockEaParamService;
+	}
 
-    public <T> List<T> listTargetObj(Class<T> clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
-        if (clazz == null) return Lists.newArrayList();
-        List<T> objResult = Lists.newArrayList();
-        List<String> fields = Lists.newArrayList();
+	public <T> List<T> listTargetObj(Class<T> clazz)
+			throws NoSuchMethodException, IllegalAccessException,
+			InvocationTargetException, InstantiationException, NoSuchFieldException {
+		if (clazz == null)
+			return null;
+		List<T> objResult = Lists.newArrayList();
+		List<String> fields = Lists.newArrayList();
 
-        Map<String, String> eaMap = this.list(Wrappers.<StockEaField>lambdaQuery()
-                .isNotNull(StockEaField::getName)).stream()
-                .collect(toMap(StockEaField::getName, e -> "f" + e.getField()));
+		Map<String, String> eaMap = this
+				.list(Wrappers.<StockEaField> lambdaQuery()
+						.isNotNull(StockEaField::getName))
+				.stream().collect(toMap(StockEaField::getName, e -> "f" + e.getField()));
 
-        for (Field clzField : clazz.getDeclaredFields()) {
-            fields.add(eaMap.get(clzField.getName()));
-        }
+		for (Field clzField : clazz.getDeclaredFields()) {
+			fields.add(eaMap.get(clzField.getName()));
+		}
 
-        List<JSONObject> objs = stockEaParamService.getInfos(fields);
+		List<JSONObject> objs = stockEaParamService.getInfos(fields);
 
-        for (JSONObject obj : objs) {
-            T instance = clazz.getConstructor().newInstance();
+		for (JSONObject obj : objs) {
+			T instance = clazz.getConstructor().newInstance();
 
-            for(Map.Entry<String, String> entry : eaMap.entrySet()){
-                if (fields.contains(entry.getValue())) {
-                    Object val = obj.get(entry.getValue());
+			for (String key : eaMap.keySet()) {
+				String name = eaMap.get(key);
+				if (fields.contains(name)) {
+					Object val = obj.get(name);
 
-                    Field field1 = instance.getClass().getDeclaredField(entry.getKey());
-                    if(val.equals("-") || StrUtil.isEmpty(val.toString())) {
-                        val = null;
-                    } else {
-                        String typeName = field1.getAnnotatedType().getType().getTypeName();
-                        if(Date.class.getCanonicalName().equals(typeName)) {
-                            val = DateUtil.parse(val.toString(), "yyyyMMdd");
-                        }
-                        if(Double.class.getCanonicalName().equals(typeName)) {
-                            val = Double.valueOf(val.toString());
-                        }
-                        if(Long.class.getCanonicalName().equals(typeName)) {
-                            val = Long.valueOf(val.toString());
-                        }
-                    }
-                    field1.setAccessible(true);
-                    field1.set(instance, val);
-                    field1.setAccessible(false);
-                }
-            }
-            objResult.add(instance);
-        }
-        return objResult;
-    }
+					Field field1 = instance.getClass().getDeclaredField(key);
+					if (val.equals("-") || StrUtil.isEmpty(val.toString())) {
+						val = null;
+					}
+					else {
+						String typeName = field1.getAnnotatedType().getType()
+								.getTypeName();
+						if (Date.class.getCanonicalName().equals(typeName)) {
+							val = DateUtil.parse(val.toString(), "yyyyMMdd");
+						}
+						if (Double.class.getCanonicalName().equals(typeName)) {
+							val = Double.valueOf(val.toString());
+						}
+						if (Long.class.getCanonicalName().equals(typeName)) {
+							val = Long.valueOf(val.toString());
+						}
+					}
+					field1.setAccessible(true);
+					field1.set(instance, val);
+					field1.setAccessible(false);
+				}
+			}
+			objResult.add(instance);
+		}
+		return objResult;
+	}
 
-    public List<StockTrend> listTrends(List<StockSimple> stocks) {
-        List<StockTrend> results = Lists.newArrayList();
+	public List<StockTrend> listTrends(List<StockSimple> stocks) {
+		List<StockTrend> results = Lists.newArrayList();
 
-        int count = 1;
-        for(StockSimple stock : stocks) {
-            StockTrend trend = new StockTrend();
-            JSONObject data;
-            try {
-                data = stockEaParamService.getStockDetails(stock.getCode());
-            } catch (Exception e) {
-                log.error("Get stock:{} failed.", stock.getCode());
-                continue;
-            }
-            trend.setCode(stock.getCode())
-                    .setTrend(data.get("trends").toString())
-                    .setDate(new Date((Integer) data.get("time") * 1000L));
+		int count = 1;
+		for (StockSimple stock : stocks) {
+			StockTrend trend = new StockTrend();
+			JSONObject data;
+			try {
+				data = stockEaParamService.getStockDetails(stock.getCode());
+			}
+			catch (Exception e) {
+				log.error("Get stock:{} failed.", stock.getCode());
+				continue;
+			}
+			trend.setCode(stock.getCode()).setTrend(data.get("trends").toString())
+					.setDate(new Date((Integer) data.get("time") * 1000L));
 
-            log.info("[{}/{}]Success get trend. Stock >> {} - {}.", count, stocks.size(), stock.getCode(), stock.getName());
-            count ++;
-            results.add(trend);
-        }
+			log.info("[{}/{}]Success get trend. Stock >> {} - {}.", count, stocks.size(),
+					stock.getCode(), stock.getName());
+			count++;
+			results.add(trend);
+		}
 
-        return results;
-    }
+		return results;
+	}
 
 }

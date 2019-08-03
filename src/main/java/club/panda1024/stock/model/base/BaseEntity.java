@@ -16,14 +16,13 @@ import java.util.Date;
 @Accessors(chain = true)
 public class BaseEntity implements Serializable {
 
-
-    @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
-    @TableField(fill = FieldFill.INSERT)
-    private String creator;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updater;
+	@TableField(fill = FieldFill.INSERT)
+	private Date createTime;
+	@TableField(fill = FieldFill.INSERT)
+	private String creator;
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private Date updateTime;
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private String updater;
 
 }

@@ -7,6 +7,6 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql:///money_monster?useSSL=false&serverTimezone=UTC
       username: root
-      password: root
+      password: dragon4
       validation-query: select 1 from dual
 
