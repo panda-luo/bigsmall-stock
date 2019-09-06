@@ -27,6 +27,7 @@ public class StockTrendSimple extends BaseEntity {
   private long id;
 
   private String code;
+  private String name;
   private Date date;
 
   private Double current;

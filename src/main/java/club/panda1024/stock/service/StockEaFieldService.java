@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class StockEaFieldService extends ServiceImpl<StockEaFieldMapper, StockEa
 			throws NoSuchMethodException, IllegalAccessException,
 			InvocationTargetException, InstantiationException, NoSuchFieldException {
 		if (clazz == null)
-			return null;
+			return Collections.emptyList();
 		List<T> objResult = Lists.newArrayList();
 		List<String> fields = Lists.newArrayList();
 
