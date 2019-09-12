@@ -20,5 +20,4 @@ public class Trader extends BaseEntity {
   private Double quoteChangeRate;
   private Double quoteChange;
 
-
 }
