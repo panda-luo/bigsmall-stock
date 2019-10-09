@@ -2,7 +2,6 @@ package club.panda1024.stock.model.entity;
 
 import club.panda1024.stock.model.base.BaseEntity;
 import cn.hutool.core.date.DateUtil;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

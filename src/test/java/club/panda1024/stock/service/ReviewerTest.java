@@ -3,19 +3,28 @@ package club.panda1024.stock.service;
 import club.panda1024.stock.model.entity.Review;
 import club.panda1024.stock.model.entity.Reviewer;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.HtmlUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
+import com.baidu.aip.ocr.AipOcr;
+import com.baidu.aip.util.ImageUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.util.io.IOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.InputStream;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -29,15 +38,21 @@ import java.util.regex.Pattern;
 @RunWith(SpringRunner.class)
 public class ReviewerTest {
 
+    public static final String appId = "14905565";
+    public static final String appKey = "BwNo0PdmtbGVTbGqtWQ0yrBb";
+    public static final String secretKey = "rqjLqjLwIPIQTKIUstz0iCX8NreDYZPW";
+
     public int year = 2019;
     public boolean lock = false;
+    public String HUNANREN_URL = "https://www.taoguba.com.cn/moreTopic?userID=444409";
     public String DEMO_URL = "https://www.taoguba.com.cn/moreTopic?pageNum=6&pageNo=2&sortFlag=T&userID=1278795";
     public String DEMO_URL_PRE = "https://www.taoguba.com.cn/moreTopic?pageNum=6&pageNo=";
-    public String DEMO_URL_SUF = "&sortFlag=T&userID=1278795";
+    public String DEMO_LOL_URL_SUF = "&sortFlag=T&userID=1278795";
+    public String DEMO_HUNANREN_URL_SUF = "&sortFlag=T&userID=444409";
+    public String DEMO_URL_SUF = "&sortFlag=T&userID=444409";
 
     @Autowired
     private ReviewService reviewService;
-
     @Autowired
     private ReviewerService reviewerService;
 
@@ -79,6 +94,20 @@ public class ReviewerTest {
                 }
             }
         }
+    }
+
+
+    @Test
+    public void getHunanrenImage() {
+        AipOcr ocr = new AipOcr(appId, appKey, secretKey);
+
+        InputStream in = URLUtil.getStream(URLUtil.url("https://image.taoguba.com.cn/img/2019/09/24/qfhiu83fxv1o.png_max.png"));
+        byte[] bytes = IoUtil.readBytes(in);
+        String s = HttpUtil.get("https://image.taoguba.com.cn/img/2019/09/24/qfhiu83fxv1o.png_760w.png");
+        JSONObject obj = ocr.accurateGeneral(bytes, new HashMap<>());
+//        JSONObject obj = ocr.basicGeneralUrl("https://image.taoguba.com.cn/img/2019/09/24/qfhiu83fxv1o.png_760w.png", new HashMap<>());
+//        System.out.println(obj);
+        System.out.println(obj);
     }
 
     public Date extractDate(String title) {

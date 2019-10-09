@@ -4,6 +4,7 @@ import club.panda1024.stock.model.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Date;
 /**
  * @author <a href="mailto:cristopanda@gmail.com"> Panda </a>
  */
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class StockCeilPromotion extends BaseEntity {
 
